@@ -2,6 +2,8 @@
 
 An open-source, open-hardware smart thermostat designed specifically for RVs — because factory thermostats are terrible and internet clouds shouldn't control your AC.
 
+**Designed for:** 12V DC RV HVAC systems with standard 6-wire control.
+
 ## Why?
 
 - **No cloud dependency** — Everything runs local. No internet required.
@@ -9,6 +11,21 @@ An open-source, open-hardware smart thermostat designed specifically for RVs —
 - **Multiple zones** — Control front + rear independently, because one temperature sensor in a 30ft box is a joke.
 - **Home Assistant ready** — Native integration, no weird bridges.
 - **Open everything** — Schematics, firmware, and software are fully documented and modifiable.
+
+## RV Wiring Compatibility
+
+OpenRV is designed as a drop-in replacement for standard 2-wire-power + 4-wire-control RV thermostats.
+
+| Wire Color | Function | Notes |
+|------------|----------|-------|
+| **Red** | +12V DC Power | System power input (9-16V range) |
+| **Blue** | -12V DC Ground | System ground |
+| **White** | Furnace | Switched +12V output to furnace control |
+| **Yellow** | AC Compressor | Switched +12V output to compressor contactor |
+| **Green** | Fan Hi | Switched +12V output to high-speed fan relay |
+| **Grey** | Fan Low | Switched +12V output to low-speed fan relay |
+
+All control outputs are **switched +12V signals** (not line voltage). The actual high-current switching happens in the furnace, rooftop AC unit, and fan relay boxes located elsewhere in the RV. This keeps the thermostat safe and low-current.
 
 ## Hardware Specs (Target)
 

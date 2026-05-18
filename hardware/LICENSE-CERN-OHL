@@ -1,0 +1,126 @@
+CERN Open Hardware Licence Version 2 - Strongly Reciprocal
+
+Preamble
+
+CERN has developed this licence to promote collaboration among hardware
+designers and to provide a legal tool which supports the freedom to use,
+study, modify, share and distribute hardware designs and products based on
+those designs. Version 2 of the CERN Open Hardware Licence comes in three
+variants: CERN-OHL-P (permissive); CERN-OHL-W (weakly reciprocal); and this
+licence, CERN-OHL-S (strongly reciprocal).
+
+The CERN-OHL-S is copyright CERN 2020. Anyone is welcome to use it. The
+definitions, conditions and other provisions that form an integral part of it
+are taken, mutatis mutandis, from the corresponding definitions, conditions
+and provisions of the GNU General Public Licence version 3.
+
+You can redistribute this document and/or modify it under the terms of the
+CERN-OHL-S v2.
+
+*******************************************************************************
+
+1 Definitions
+
+1.1 'Licence' means this CERN-OHL-S.
+
+1.2 'Compatible Licence' means any licence which, as approved by CERN, has
+    terms compatible with the terms of this Licence.
+
+1.3 'You' (or 'Your') means an individual or Legal Entity exercising
+    permissions granted by this Licence.
+
+1.4 'Source' means information such as design materials or digital code
+    which can be applied to Make, test and distribute products.
+
+1.5 'Product' means any device, component, work or physical object which
+    is Made or distributed under the terms of this Licence.
+
+1.6 'Make' means to create or configure something, whether by manufacture,
+    assembly, compilation or otherwise.
+
+1.7 'Available Component' means a component that is available to anyone to
+    Make a Product.
+
+1.8 'Covered Source' means Source that is governed by the terms of this
+    Licence.
+
+*******************************************************************************
+
+2 Applicability
+
+2.1 This Licence governs any use of the Source.
+
+2.2 You may use, study, modify and distribute Covered Source for products
+    which are not Products. Such products are not governed by this Licence.
+
+2.3 This Licence does not apply to software, firmware or code loaded into
+    programmable devices which is distributed under the terms of a separate
+    licence.
+
+*******************************************************************************
+
+3 Copying, Modifying and Sharing Covered Source
+
+3.1 You may copy and redistribute Covered Source, with or without
+    modifications, in any medium, provided You inform Recipients how to obtain
+    the relevant Source, and inform Recipients of the terms of this Licence.
+
+3.2 If You modify Covered Source, You must license Your modifications under
+    this Licence.
+
+3.3 When You modify Covered Source and distribute a Product based on those
+    modifications, You must also make available the relevant modified Covered
+    Source. The easiest way to satisfy this requirement is to publish the
+    modified Source at a public repository.
+
+3.4 The terms in 3.1, 3.2 and 3.3 also apply if You modify Covered Source
+    into a form where the relevant Covered Source is no longer directly
+    accessible.
+
+*******************************************************************************
+
+4 Making and Distributing Products
+
+4.1 You may Make Products, and distribute Products to Recipients, provided
+    that each copy contains a conspicuous notice summarising the licence terms.
+
+4.2 If You modify Covered Source to Make Products, You must comply with the
+    requirements in Section 3. You must also make the relevant modified Source
+    available to anyone to whom You distribute Products.
+
+4.3 Each Product You distribute must include a copy of this Licence, or a
+    prominent notice containing a URL to the original Source and stating that
+    the Product is licensed under the CERN-OHL-S.
+
+*******************************************************************************
+
+5 Warranty and Liability
+
+5.1 DISCLAIMER OF WARRANTY — Covered Source and Products are provided
+    without any warranty, including, without limitation, warranties of
+    merchantability, fitness for a particular purpose, non-infringement, or the
+    absence of latent or other defects, accuracy, or the present or absence of
+    errors, whether or not discoverable.
+
+5.2 EXCEPT AS REQUIRED BY APPLICABLE LAW, IN NO EVENT SHALL ANY LICENSOR BE
+    LIABLE TO YOU OR ANY THIRD PARTY FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+    CONSEQUENTIAL, SPECIAL, OR EXEMPLARY DAMAGES ARISING OUT OF THIS LICENCE
+    OR THE USE OF COVERED SOURCE OR PRODUCTS, EVEN IF ADVISED OF THE
+    POSSIBILITY OF SUCH DAMAGES.
+
+*******************************************************************************
+
+6 General
+
+6.1 Any notices You are required to give under this Licence must be in a form
+    reasonably likely to be noticed by a Recipient.
+
+6.2 If any provision of this Licence is unenforceable, that shall not affect
+    the validity of the remainder.
+
+6.3 This Licence does not grant permission to use the trade names, trademarks,
+    service marks or product names of the Licensor.
+
+*******************************************************************************
+
+END OF LICENCE
