@@ -1,0 +1,59 @@
+# Build artifacts
+build/
+dist/
+*.elf
+*.bin
+*.map
+*.hex
+*.uf2
+
+# PlatformIO
+.pio/
+.pioenvs/
+.piolibdeps/
+
+# ESP-IDF
+sdkconfig
+sdkconfig.old
+build/
+
+# Node
+node_modules/
+*.log
+npm-debug.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+
+# KiCad
+*-backups/
+*.kicad_prl
+fp-info-cache
+*.lck
+fabrication-outputs/
+
+# Enclosure
+*.FCBak
+*.blend?
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets
+.secrets/
+*.key
+*.pem
+config.local.json
