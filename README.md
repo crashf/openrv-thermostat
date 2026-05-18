@@ -16,6 +16,8 @@ An open-source, open-hardware smart thermostat designed specifically for RVs —
 
 OpenRV is designed as a drop-in replacement for standard 2-wire-power + 4-wire-control RV thermostats.
 
+**Wiring Diagram:** See [`hardware/wiring-diagram-v0.1.jpg`](hardware/wiring-diagram-v0.1.jpg) for the full schematic.
+
 | Wire Color | Function | Notes |
 |------------|----------|-------|
 | **Red** | +12V DC Power | System power input (9-16V range) |

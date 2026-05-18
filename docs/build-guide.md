@@ -15,6 +15,12 @@
 | Breadboard | 1 | Any | Half-size or full |
 | 12V DC power supply | 1 | Bench PSU | RV battery (~12.6V) or regulated supply |
 
+### Wiring Diagram
+
+![OpenRV v0.1 Wiring Diagram](../hardware/wiring-diagram-v0.1.jpg)
+
+**Full schematic:** [`hardware/wiring-diagram-v0.1.jpg`](hardware/wiring-diagram-v0.1.jpg)
+
 ### Understanding Your RV Wiring
 
 Before building, you need to know how your RV's existing thermostat works:
