@@ -72,6 +72,9 @@ void loop() {
         // Update display
         display.update(thermostat, sensors);
         
+        // Broadcast updated state to all web clients
+        webServer.updateState(thermostat, sensors, relays);
+        
         // Log state
         Serial.printf("[%.1f°F] Mode=%s Target=%.1f Outputs: F=%d C=%d FH=%d FL=%d\n",
             sensors.getTemperatureF(),
@@ -84,8 +87,15 @@ void loop() {
         );
     }
 
-    // 3. Handle touch / UI
+    // 3. Handle touch / UI (and broadcast if state changed)
+    int prevState = (thermostat.isFurnaceOn() << 3) | (thermostat.isCompressorOn() << 2) |
+                    (thermostat.isFanHiOn() << 1) | thermostat.isFanLoOn();
     display.handleTouch(thermostat);
+    int newState = (thermostat.isFurnaceOn() << 3) | (thermostat.isCompressorOn() << 2) |
+                   (thermostat.isFanHiOn() << 1) | thermostat.isFanLoOn();
+    if (newState != prevState) {
+        webServer.updateState(thermostat, sensors, relays);
+    }
     
     // 4. Handle web requests
     webServer.handle();
