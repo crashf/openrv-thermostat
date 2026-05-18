@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenRV Thermostat</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #1a1a2e;
+      color: #eee;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .card {
+      background: #16213e;
+      border-radius: 24px;
+      padding: 30px;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      font-size: 20px;
+      color: #a8d8ea;
+      letter-spacing: 2px;
+    }
+    .header .subtitle { font-size: 12px; color: #666; }
+
+    .temp-display {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .temp-value {
+      font-size: 80px;
+      font-weight: 200;
+      color: #fff;
+      line-height: 1;
+    }
+    .temp-unit { font-size: 24px; color: #888; }
+    .temp-label { font-size: 14px; color: #888; margin-top: 8px; }
+
+    .target-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .btn-circle {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      border: none;
+      background: #e94560;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      transition: transform 0.1s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .btn-circle:active { transform: scale(0.92); }
+    .btn-circle.small { font-size: 20px; }
+    .target-value {
+      font-size: 36px;
+      font-weight: 600;
+      color: #a8d8ea;
+      min-width: 80px;
+      text-align: center;
+    }
+
+    .mode-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .mode-btn {
+      padding: 14px;
+      border: 2px solid #0f3460;
+      border-radius: 12px;
+      background: transparent;
+      color: #a0a0a0;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+    .mode-btn.active {
+      border-color: #e94560;
+      background: rgba(233,69,96,0.15);
+      color: #fff;
+    }
+    .mode-btn:active { transform: scale(0.95); }
+
+    .status-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .status-pill {
+      padding: 8px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 11px;
+      background: #0f3460;
+      color: #888;
+    }
+    .status-pill.on {
+      color: #fff;
+      box-shadow: 0 0 12px rgba(233,69,96,0.3);
+    }
+    .status-pill.furnace.on { background: #e67e22; }
+    .status-pill.ac.on { background: #3498db; }
+    .status-pill.fan-hi.on { background: #1abc9c; }
+    .status-pill.fan-lo.on { background: #9b59b6; }
+
+    .connection-indicator {
+      text-align: center;
+      font-size: 12px;
+      margin-top: 16px;
+      color: #888;
+    }
+    .connection-indicator.connected { color: #2ecc71; }
+    .connection-indicator.disconnected { color: #e74c3c; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <h1>🏕️ OpenRV</h1>
+      <div class="subtitle">RV Thermostat</div>
+    </div>
+
+    <div class="temp-display">
+      <div>
+        <span class="temp-value" id="currentTemp">--.-</span>
+        <span class="temp-unit">°F</span>
+      </div>
+      <div class="temp-label">Current Temperature</div>
+    </div>
+
+    <div class="target-row">
+      <button class="btn-circle small" onclick="adjustTarget(-1)">−</button>
+      <div class="target-value">
+        <span id="targetTemp">--</span>°
+      </div>
+      <button class="btn-circle small" onclick="adjustTarget(+1)">+</button>
+    </div>
+
+    <div class="mode-grid">
+      <button class="mode-btn" data-mode="0" onclick="setMode(0)">OFF</button>
+      <button class="mode-btn" data-mode="1" onclick="setMode(1)">FAN LO</button>
+      <button class="mode-btn" data-mode="2" onclick="setMode(2)">FAN HI</button>
+      <button class="mode-btn" data-mode="3" onclick="setMode(3)">COOL</button>
+      <button class="mode-btn" data-mode="4" onclick="setMode(4)">HEAT</button>
+      <button class="mode-btn" data-mode="5" onclick="setMode(5)">AUTO</button>
+    </div>
+
+    <div class="status-row">
+      <div class="status-pill furnace" id="status-furnace">Furnace</div>
+      <div class="status-pill ac" id="status-ac">AC</div>
+      <div class="status-pill fan-hi" id="status-fanHi">Fan Hi</div>
+      <div class="status-pill fan-lo" id="status-fanLo">Fan Lo</div>
+    </div>
+
+    <div class="connection-indicator disconnected" id="connectionStatus">
+      ● Connecting...
+    </div>
+  </div>
+
+  <script>
+    const ws = new WebSocket(`ws://${window.location.host}/ws`);
+    let lastState = null;
+
+    ws.onopen = () => {
+      console.log('WebSocket connected');
+      document.getElementById('connectionStatus').textContent='● Connected';
+      document.getElementById('connectionStatus').className='connection-indicator connected';
+    };
+
+    ws.onmessage = (event) => {
+      const state = JSON.parse(event.data);
+      updateUI(state);
+      lastState = state;
+    };
+
+    ws.onclose = () => {
+      console.log('WebSocket disconnected');
+      document.getElementById('connectionStatus').textContent='● Disconnected';
+      document.getElementById('connectionStatus').className='connection-indicator disconnected';
+    };
+
+    ws.onerror = (err) => {
+      console.error('WebSocket error:', err);
+      document.getElementById('connectionStatus').textContent='● Error';
+      document.getElementById('connectionStatus').className='connection-indicator disconnected';
+    };
+
+    function updateUI(state) {
+      document.getElementById('currentTemp').textContent = state.currentTemp?.toFixed(1) ?? '--.-';
+      document.getElementById('targetTemp').textContent = state.targetTemp?.toFixed(0) ?? '--';
+
+      // Update mode buttons
+      document.querySelectorAll('.mode-btn').forEach(btn => {
+        const mode = parseInt(btn.dataset.mode);
+        // Map string mode names to indices
+        const modeNames = ['OFF','FAN LO','FAN HI','COOL','HEAT','AUTO'];
+        const currentModeIdx = modeNames.indexOf(String(state.mode).toUpperCase());
+        btn.classList.toggle('active', mode === (currentModeIdx >= 0 ? currentModeIdx : state.mode));
+      });
+
+      // Update status indicators
+      document.getElementById('status-furnace').classList.toggle('on', !!state.furnace);
+      document.getElementById('status-ac').classList.toggle('on', !!state.compressor);
+      document.getElementById('status-fanHi').classList.toggle('on', !!state.fanHi);
+      document.getElementById('status-fanLo').classList.toggle('on', !!state.fanLo);
+    }
+
+    function setMode(mode) {
+      if (ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({cmd: 'mode', value: mode}));
+      }
+    }
+
+    function adjustTarget(delta) {
+      if (ws.readyState === WebSocket.OPEN && lastState) {
+        const newTarget = lastState.targetTemp + delta;
+        ws.send(JSON.stringify({cmd: 'target', value: newTarget}));
+      }
+    }
+  </script>
+</body>
+</html>
